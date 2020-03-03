@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <template id="spinBoxTemplate">
+      <style>
+        :host {
+          display: inline-grid;
+        }
+
+        #input {
+          grid-row-end: 3;
+          grid-row-start: 1;
+          text-align: right;
+        }
+
+        #upButton,
+        #downButton {
+          grid-column: 2;
+          user-select: none;
+        }
+      </style>
+      <input id="input"></input>
+      <button id="upButton">▲</button>
+      <button id="downButton">▼</button>
+    </template>
+
+    <script type="module">
+      class SpinBox extends HTMLElement {
+        constructor() {
+          super();
+          this._value = 0;
+        }
+
+        attributeChangedCallback(attributeName, oldValue, newValue) {
+          if (attributeName === 'value') {
+            this.value = parseInt(newValue);
+          }
+        }
+
+        connectedCallback() {
+          const root = this.attachShadow({ mode: 'open' });
+          const clone = document.importNode(spinBoxTemplate.content, true);
+          root.appendChild(clone);
+          const input = root.getElementById('input');
+          input.addEventListener('input', () => { this.value = input.value; });
+          const downButton = root.getElementById('downButton');
+          downButton.addEventListener("mousedown", () => { this.value--; });
+          const upButton = root.getElementById('upButton');
+          upButton.addEventListener("mousedown", () => { this.value++; });
+          this._render();
+        }
+
+        static get observedAttributes() {
+          return ['value'];
+        }
+
+        _render() {
+          const input = this.shadowRoot.getElementById('input');
+          input.value = this._value;
+        }
+
+        get value() {
+          return this._value;
+        }
+        set value(value) {
+          this._value = value;
+          this._render();
+        }
+      }
+
+      customElements.define('spin-box', SpinBox);
+    </script>
+  </head>
+
+  <body>
+    <spin-box></spin-box>
+  <body>
+    
+</html>
