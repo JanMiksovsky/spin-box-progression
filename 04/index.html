@@ -40,16 +40,19 @@
         }
 
         connectedCallback() {
+          const firstConnectedCallback = !this.shadowRoot;
           super.connectedCallback();
-          this[internal.ids].input.addEventListener('input', () => {
-            this.value = this[internal.ids].input.value;
-          });
-          this[internal.ids].downButton.addEventListener("mousedown", () => {
-            this.value--;
-          });
-          this[internal.ids].upButton.addEventListener("mousedown", () => {
-            this.value++;
-          });
+          if (firstConnectedCallback) {
+            this[internal.ids].input.addEventListener('input', () => {
+              this.value = this[internal.ids].input.value;
+            });
+            this[internal.ids].downButton.addEventListener("mousedown", () => {
+              this.value--;
+            });
+            this[internal.ids].upButton.addEventListener("mousedown", () => {
+              this.value++;
+            });
+          }
         }
 
         get [internal.defaultState]() {

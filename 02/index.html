@@ -44,13 +44,16 @@
         }
 
         connectedCallback() {
+          const firstConnectedCallback = !this.shadowRoot;
           this[internal.render]();
-          const input = this.shadowRoot.getElementById('input');
-          input.addEventListener('input', () => { this.value = input.value; });
-          const downButton = this.shadowRoot.getElementById('downButton');
-          downButton.addEventListener("mousedown", () => { this.value--; });
-          const upButton = this.shadowRoot.getElementById('upButton');
-          upButton.addEventListener("mousedown", () => { this.value++; });
+          if (firstConnectedCallback) {
+            const input = this.shadowRoot.getElementById('input');
+            input.addEventListener('input', () => { this.value = input.value; });
+            const downButton = this.shadowRoot.getElementById('downButton');
+            downButton.addEventListener("mousedown", () => { this.value--; });
+            const upButton = this.shadowRoot.getElementById('upButton');
+            upButton.addEventListener("mousedown", () => { this.value++; });
+          }
         }
 
         static get observedAttributes() {
