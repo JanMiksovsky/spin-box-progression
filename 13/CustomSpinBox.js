@@ -69,15 +69,11 @@ function format(number, unit) {
 }
 
 function parse(s) {
-  const numberWithUnitRegex = /(?<number>-?\d+)(\s*(?<unit>.+))?/;
+  const numberWithUnitRegex = /(-?\d+)(?:\s*(.+))?/;
   const match = numberWithUnitRegex.exec(s);
   const parsed = parseInt(s);
-  const number = match
-    ? parseInt(match.groups.number)
-    : isNaN(parsed)
-    ? 0
-    : parsed;
-  const unit = match ? match.groups.unit : "";
+  const number = match ? parseInt(match[1]) : isNaN(parsed) ? 0 : parsed;
+  const unit = match ? match[2] : "";
   return { number, unit };
 }
 
