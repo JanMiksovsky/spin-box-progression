@@ -17,7 +17,6 @@ export default class CustomInput extends Input {
           background: none;
           border: none;
           color: inherit;
-          font: inherit;
           padding: 0.3em 0.6em;
         }
       </style>
