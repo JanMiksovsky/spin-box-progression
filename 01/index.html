@@ -41,15 +41,17 @@
         }
 
         connectedCallback() {
-          const root = this.attachShadow({ mode: 'open' });
-          const clone = document.importNode(spinBoxTemplate.content, true);
-          root.appendChild(clone);
-          const input = root.getElementById('input');
-          input.addEventListener('input', () => { this.value = input.value; });
-          const downButton = root.getElementById('downButton');
-          downButton.addEventListener("mousedown", () => { this.value--; });
-          const upButton = root.getElementById('upButton');
-          upButton.addEventListener("mousedown", () => { this.value++; });
+          if (!this.shadowRoot) {
+            const root = this.attachShadow({ mode: 'open' });
+            const clone = document.importNode(spinBoxTemplate.content, true);
+            root.appendChild(clone);
+            const input = root.getElementById('input');
+            input.addEventListener('input', () => { this.value = input.value; });
+            const downButton = root.getElementById('downButton');
+            downButton.addEventListener("mousedown", () => { this.value--; });
+            const upButton = root.getElementById('upButton');
+            upButton.addEventListener("mousedown", () => { this.value++; });
+          }
           this._render();
         }
 
