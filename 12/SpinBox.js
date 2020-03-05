@@ -39,6 +39,7 @@ export default class SpinBox extends ReactiveElement {
       });
     }
     if (changed.value) {
+      // Render value state to input.
       this[internal.ids].input.value = this[internal.state].value;
     }
   }

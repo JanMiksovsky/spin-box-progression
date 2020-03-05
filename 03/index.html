@@ -44,9 +44,18 @@
         }
 
         connectedCallback() {
-          const firstConnectedCallback = !this.shadowRoot;
           this[internal.render]();
-          if (firstConnectedCallback) {
+        }
+
+        static get observedAttributes() {
+          return ['value'];
+        }
+
+        [internal.render]() {
+          const firstRender = !this.shadowRoot;
+          super[internal.render](); // Populates shadow root from template.
+          if (firstRender) {
+            // Wire up event handlers.
             this[internal.ids].input.addEventListener('input', () => {
               this.value = this[internal.ids].input.value;
             });
@@ -57,14 +66,7 @@
               this.value++;
             });
           }
-        }
-
-        static get observedAttributes() {
-          return ['value'];
-        }
-
-        [internal.render]() {
-          super[internal.render]();
+          // Render value state to input.
           this[internal.ids].input.value = this._value;
         }
 

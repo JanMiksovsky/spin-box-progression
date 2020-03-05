@@ -39,22 +39,6 @@
           }
         }
 
-        connectedCallback() {
-          const firstConnectedCallback = !this.shadowRoot;
-          super.connectedCallback();
-          if (firstConnectedCallback) {
-            this[internal.ids].input.addEventListener('input', () => {
-              this.value = this[internal.ids].input.value;
-            });
-            this[internal.ids].downButton.addEventListener("mousedown", () => {
-              this.value--;
-            });
-            this[internal.ids].upButton.addEventListener("mousedown", () => {
-              this.value++;
-            });
-          }
-        }
-
         get [internal.defaultState]() {
           return {
             ...super[internal.defaultState],
@@ -67,8 +51,22 @@
         }
 
         [internal.render](changed) {
-          super[internal.render](changed);
+          const firstRender = !this.shadowRoot;
+          super[internal.render](changed); // Populates shadow root from template.
+          if (firstRender) {
+            // Wire up event handlers.
+            this[internal.ids].input.addEventListener('input', () => {
+              this.value = this[internal.ids].input.value;
+            });
+            this[internal.ids].downButton.addEventListener("mousedown", () => {
+              this.value--;
+            });
+            this[internal.ids].upButton.addEventListener("mousedown", () => {
+              this.value++;
+            });
+          }
           if (changed.value) {
+            // Render value state to input.
             this[internal.ids].input.value = this[internal.state].value;
           }
         }

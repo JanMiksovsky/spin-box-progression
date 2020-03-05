@@ -5,6 +5,7 @@ import ReactiveElement from "../lib/core/ReactiveElement.js";
 export default class SpinBox extends ReactiveElement {
   [internal.componentDidMount]() {
     super[internal.componentDidMount]();
+    // Wire up event handlers.
     this[internal.ids].input.addEventListener("input", () => {
       this.value = this[internal.ids].input.value;
     });
@@ -26,6 +27,7 @@ export default class SpinBox extends ReactiveElement {
   [internal.render](changed) {
     super[internal.render](changed);
     if (changed.value) {
+      // Render value state to input.
       this[internal.ids].input.value = this[internal.state].value;
     }
   }

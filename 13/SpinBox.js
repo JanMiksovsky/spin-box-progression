@@ -45,9 +45,12 @@ export default class SpinBox extends ReactiveElement {
   [internal.render](changed) {
     super[internal.render](changed);
     if (changed.buttonPartType) {
+      // Transmute buttons to new button part type.
       const { buttonPartType } = this[internal.state];
       template.transmute(this[internal.ids].downButton, buttonPartType);
       template.transmute(this[internal.ids].upButton, buttonPartType);
+
+      // Wire up handlers on new buttons.
       this[internal.ids].downButton.addEventListener("mousedown", () => {
         this.decrement();
       });
@@ -56,13 +59,17 @@ export default class SpinBox extends ReactiveElement {
       });
     }
     if (changed.inputPartType) {
+      // Transmute input to new input part type.
       const { inputPartType } = this[internal.state];
       template.transmute(this[internal.ids].input, inputPartType);
+
+      // Wire up handler on new input.
       this[internal.ids].input.addEventListener("input", () => {
         this.value = this[internal.ids].input.value;
       });
     }
     if (changed.value) {
+      // Render value state to input.
       this[internal.ids].input.value = this[internal.state].value;
     }
   }

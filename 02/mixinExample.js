@@ -5,6 +5,10 @@ function GreetMixin(Base) {
       if (super.connectedCallback) {
         super.connectedCallback();
       }
+      this.greet();
+    }
+
+    greet() {
       console.log("Hello");
     }
   };
@@ -17,3 +21,4 @@ customElements.define("greet-element", GreetElement);
 // Instantiate the component.
 const element = new GreetElement();
 document.body.append(element); // logs "Hello"
+element.greet(); // logs "Hello"

@@ -42,9 +42,11 @@
 
         connectedCallback() {
           if (!this.shadowRoot) {
+            // Populate shadow root from template.
             const root = this.attachShadow({ mode: 'open' });
             const clone = document.importNode(spinBoxTemplate.content, true);
             root.appendChild(clone);
+            // Wire up event handlers.
             const input = root.getElementById('input');
             input.addEventListener('input', () => { this.value = input.value; });
             const downButton = root.getElementById('downButton');
@@ -60,6 +62,7 @@
         }
 
         _render() {
+          // Render value state to input.
           const input = this.shadowRoot.getElementById('input');
           input.value = this._value;
         }
