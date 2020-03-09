@@ -52,11 +52,10 @@
         }
 
         [internal.render](changed) {
-          const firstRender = !this.shadowRoot;
           super[internal.render](changed); // Populates shadow root from template.
-          if (firstRender) {
+          if (this[internal.firstRender]) {
             // Wire up event handlers.
-            this[internal.ids].input.addEventListener('input', () => {
+            this[internal.ids].input.addEventListener("input", () => {
               this.value = this[internal.ids].input.value;
             });
             this[internal.ids].downButton.addEventListener("mousedown", () => {

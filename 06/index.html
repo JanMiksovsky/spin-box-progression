@@ -37,21 +37,6 @@
       class SpinBox extends AttributeMarshallingMixin(ReactiveMixin(
         ShadowTemplateMixin(HTMLElement)
       )) {
-
-        [internal.componentDidMount]() {
-          super[internal.componentDidMount]();
-          // Wire up event handlers.
-          this[internal.ids].input.addEventListener('input', () => {
-            this.value = this[internal.ids].input.value;
-          });
-          this[internal.ids].downButton.addEventListener("mousedown", () => {
-            this.value--;
-          });
-          this[internal.ids].upButton.addEventListener("mousedown", () => {
-            this.value++;
-          });
-        }
-
         get [internal.defaultState]() {
           return {
             ...super[internal.defaultState],
@@ -60,7 +45,19 @@
         }
 
         [internal.render](changed) {
-          super[internal.render](changed);
+          super[internal.render](changed); // Populates shadow root from template.
+          if (this[internal.firstRender]) {
+            // Wire up event handlers.
+            this[internal.ids].input.addEventListener("input", () => {
+              this.value = this[internal.ids].input.value;
+            });
+            this[internal.ids].downButton.addEventListener("mousedown", () => {
+              this.value--;
+            });
+            this[internal.ids].upButton.addEventListener("mousedown", () => {
+              this.value++;
+            });
+          }
           if (changed.value) {
             // Render value state to input.
             this[internal.ids].input.value = this[internal.state].value;

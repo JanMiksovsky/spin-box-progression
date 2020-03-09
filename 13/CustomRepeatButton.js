@@ -11,43 +11,44 @@ const initialTimeoutDuration = 500; // Wait a bit before starting repeats.
 const repeatIntervalDuration = 50; // Once repeats start, they go fast.
 
 export default class CustomRepeatButton extends CustomButton {
-  [internal.componentDidMount]() {
-    super[internal.componentDidMount]();
-
-    // Wire up event handlers.
-    // Only listen to mouse events with the primary (usually left) button.
-    const inner = this[internal.ids].inner;
-    inner.addEventListener("mousedown", event => {
-      if (event.button === 0) {
-        repeatStart(this);
-      }
-    });
-    inner.addEventListener("mouseup", event => {
-      if (event.button === 0) {
-        repeatStop(this);
-      }
-    });
-    inner.addEventListener("mouseleave", event => {
-      if (event.button === 0) {
-        repeatStop(this);
-      }
-    });
-
-    // Treat touch events like mouse events.
-    inner.addEventListener("touchstart", () => {
-      repeatStart(this);
-    });
-    inner.addEventListener("touchend", () => {
-      repeatStop(this);
-    });
-  }
-
   get [internal.defaultState]() {
     return {
       ...super[internal.defaultState],
       interval: null,
       timeout: null
     };
+  }
+
+  [internal.render](changed) {
+    super[internal.render](changed);
+    if (this[internal.firstRender]) {
+      // Wire up event handlers.
+      // Only listen to mouse events with the primary (usually left) button.
+      const inner = this[internal.ids].inner;
+      inner.addEventListener("mousedown", event => {
+        if (event.button === 0) {
+          repeatStart(this);
+        }
+      });
+      inner.addEventListener("mouseup", event => {
+        if (event.button === 0) {
+          repeatStop(this);
+        }
+      });
+      inner.addEventListener("mouseleave", event => {
+        if (event.button === 0) {
+          repeatStop(this);
+        }
+      });
+
+      // Treat touch events like mouse events.
+      inner.addEventListener("touchstart", () => {
+        repeatStart(this);
+      });
+      inner.addEventListener("touchend", () => {
+        repeatStop(this);
+      });
+    }
   }
 }
 
