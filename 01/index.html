@@ -55,17 +55,12 @@
             const upButton = root.getElementById('upButton');
             upButton.addEventListener("mousedown", () => { this.value++; });
           }
-          this._render();
+          // Render initial value.
+          this.shadowRoot.getElementById('input').value = this._value;
         }
 
         static get observedAttributes() {
           return ['value'];
-        }
-
-        _render() {
-          // Render value state to input.
-          const input = this.shadowRoot.getElementById('input');
-          input.value = this._value;
         }
 
         get value() {
@@ -73,7 +68,8 @@
         }
         set value(value) {
           this._value = value;
-          this._render();
+          // Render updated value.
+          this.shadowRoot.getElementById('input').value = this._value;
         }
       }
 
