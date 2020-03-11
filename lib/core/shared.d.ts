@@ -32,6 +32,7 @@ type CustomElement = HTMLElement & {
   attributeChangedCallback(attributeName, oldValue, newValue): void;
   connectedCallback(): void;
   disconnectedCallback(): void;
+  shadowRoot: ShadowRoot;
 };
 
 /*
@@ -72,6 +73,10 @@ type Mixin<BaseMembers, MixinMembers> = <T extends HTMLElement & BaseMembers>(
  */
 type PlainObject = {
   [key: string]: any;
+};
+
+type ChangedFlags = {
+  [key: string]: boolean;
 };
 
 /*
