@@ -5,6 +5,38 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>8</title>
     <script type="module" src="SpinBox.js"></script>
+    <style>
+        spin-box {
+          border: 2px solid #6e00ff;
+          border-radius: 5px;
+          color: #444;
+          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+          font-size: 16px;
+          overflow: hidden;
+        }
+
+        spin-box::part(input) {
+          border: none;
+          box-sizing: border-box;
+          color: inherit;
+          font: inherit;
+          padding: 0.3em 0.6em;
+          width: 4em;
+        }
+
+        spin-box::part(spin-button) {
+          background: linear-gradient(50deg, #6e00ff 0, #bb00ff 100%);
+          border: none;
+          color: #ddd;
+          font-size: 0.6em;
+          padding: 2px;
+        }
+
+        spin-box::part(spin-button):hover {
+          background: #bb00ff;
+          color: white;
+        }
+    </style>
   </head>
 
   <body>

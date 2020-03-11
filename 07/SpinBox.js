@@ -37,20 +37,21 @@ export default class SpinBox extends ReactiveElement {
           display: inline-grid;
         }
 
-        [part~="input"] {
+        #input {
           grid-row-end: 3;
           grid-row-start: 1;
           text-align: right;
         }
 
-        [part~="spin-button"] {
+        #upButton,
+        #downButton {
           grid-column: 2;
           user-select: none;
         }
       </style>
-      <input id="input" part="input"></input>
-      <button id="upButton" part="spin-button up-button">▲</button>
-      <button id="downButton" part="spin-button down-button">▼</button>
+      <input id="input"></input>
+      <button id="upButton">▲</button>
+      <button id="downButton">▼</button>
     `;
   }
 

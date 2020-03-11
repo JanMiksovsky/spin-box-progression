@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>6</title>
+    <title>5</title>
 
     <template id="spinBoxTemplate">
       <style>
@@ -30,9 +30,13 @@
 
     <script type="module">
       import * as internal from '../lib/core/internal.js';
-      import ReactiveElement from '../lib/core/ReactiveElement.js';
-  
-      class SpinBox extends ReactiveElement {
+      import AttributeMarshallingMixin from '../lib/core/AttributeMarshallingMixin.js';
+      import ReactiveMixin from '../lib/core/ReactiveMixin.js';
+      import ShadowTemplateMixin from '../lib/core/ShadowTemplateMixin.js';
+
+      class SpinBox extends AttributeMarshallingMixin(ReactiveMixin(
+        ShadowTemplateMixin(HTMLElement)
+      )) {
         get [internal.defaultState]() {
           return {
             ...super[internal.defaultState],

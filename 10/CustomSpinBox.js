@@ -3,6 +3,16 @@ import html from "../lib/core/html.js";
 import SpinBox from "./SpinBox.js";
 
 export default class CustomSpinBox extends SpinBox {
+  [internal.render](changed) {
+    super[internal.render](changed);
+    if (changed.value) {
+      const { value } = this[internal.state];
+      const negative = parseInt(value) < 0;
+      this.style.borderColor = negative ? "rgb(255, 0, 255)" : "";
+      this.style.backgroundColor = negative ? "rgba(255, 0, 255, 0.1)" : "";
+    }
+  }
+
   get [internal.template]() {
     const result = super[internal.template];
     result.content.append(html`
