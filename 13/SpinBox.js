@@ -3,28 +3,6 @@ import * as template from "../lib/core/template.js";
 import ReactiveElement from "../lib/core/ReactiveElement.js";
 
 export default class SpinBox extends ReactiveElement {
-  [internal.componentDidMount]() {
-    this.addEventListener("keydown", event => {
-      this[internal.raiseChangeEvents] = true;
-      let handled = false;
-      switch (event.key) {
-        case "ArrowDown":
-          this.decrement();
-          handled = true;
-          break;
-
-        case "ArrowUp":
-          this.increment();
-          handled = true;
-          break;
-      }
-      if (handled) {
-        event.preventDefault();
-      }
-      this[internal.raiseChangeEvents] = false;
-    });
-  }
-
   decrement() {
     this.value--;
   }
@@ -44,8 +22,32 @@ export default class SpinBox extends ReactiveElement {
 
   [internal.render](changed) {
     super[internal.render](changed);
+
+    if (this[internal.firstRender]) {
+      // Add Up key and Down key handlers.
+      this.addEventListener("keydown", event => {
+        this[internal.raiseChangeEvents] = true;
+        let handled = false;
+        switch (event.key) {
+          case "ArrowDown":
+            this.decrement();
+            handled = true;
+            break;
+
+          case "ArrowUp":
+            this.increment();
+            handled = true;
+            break;
+        }
+        if (handled) {
+          event.preventDefault();
+        }
+        this[internal.raiseChangeEvents] = false;
+      });
+    }
+
+    // Transmute buttons to new button part type.
     if (changed.buttonPartType) {
-      // Transmute buttons to new button part type.
       const { buttonPartType } = this[internal.state];
       template.transmute(this[internal.ids].downButton, buttonPartType);
       template.transmute(this[internal.ids].upButton, buttonPartType);
@@ -58,8 +60,9 @@ export default class SpinBox extends ReactiveElement {
         this.increment();
       });
     }
+
+    // Transmute input to new input part type.
     if (changed.inputPartType) {
-      // Transmute input to new input part type.
       const { inputPartType } = this[internal.state];
       template.transmute(this[internal.ids].input, inputPartType);
 
@@ -68,8 +71,9 @@ export default class SpinBox extends ReactiveElement {
         this.value = this[internal.ids].input.value;
       });
     }
+
+    // Render value state to input.
     if (changed.value) {
-      // Render value state to input.
       this[internal.ids].input.value = this[internal.state].value;
     }
   }
