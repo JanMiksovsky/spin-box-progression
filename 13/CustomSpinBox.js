@@ -35,10 +35,13 @@ export default class CustomSpinBox extends SpinBox {
 
   get [template]() {
     const result = super[template];
+
+    // Graft in up and down icons.
     const upButton = result.content.getElementById("upButton");
     upButton.textContent = "▲";
     const downButton = result.content.getElementById("downButton");
     downButton.textContent = "▼";
+
     result.content.append(html`
       <style>
         :host {

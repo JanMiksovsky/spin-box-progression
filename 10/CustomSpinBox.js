@@ -1,5 +1,5 @@
 import html from "../lib/core/html.js";
-import { render, state, template } from "../lib/core/internal.js";
+import { ids, render, state, template } from "../lib/core/internal.js";
 import SpinBox from "./SpinBox.js";
 
 export default class CustomSpinBox extends SpinBox {
@@ -9,7 +9,9 @@ export default class CustomSpinBox extends SpinBox {
       const { value } = this[state];
       const negative = parseInt(value) < 0;
       this.style.borderColor = negative ? "rgb(255, 0, 255)" : "";
-      this.style.backgroundColor = negative ? "rgba(255, 0, 255, 0.1)" : "";
+      this[ids].input.style.backgroundColor = negative
+        ? "rgba(255, 0, 255, 0.1)"
+        : "";
     }
   }
 

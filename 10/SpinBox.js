@@ -8,6 +8,7 @@ import {
   template,
 } from "../lib/core/internal.js";
 import ReactiveElement from "../lib/core/ReactiveElement.js";
+import { html } from "../lib/core/template.js";
 
 export default class SpinBox extends ReactiveElement {
   get [defaultState]() {
@@ -40,7 +41,7 @@ export default class SpinBox extends ReactiveElement {
   }
 
   get [template]() {
-    return template.html`
+    return html`
       <style>
         :host {
           display: inline-grid;
