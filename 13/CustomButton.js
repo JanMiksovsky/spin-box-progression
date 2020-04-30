@@ -1,10 +1,10 @@
-import * as internal from "../lib/core/internal.js";
-import html from "../lib/core/html.js";
 import Button from "../lib/base/Button.js";
+import html from "../lib/core/html.js";
+import { template } from "../lib/core/internal.js";
 
 export default class CustomButton extends Button {
-  get [internal.template]() {
-    const result = super[internal.template];
+  get [template]() {
+    const result = super[template];
     result.content.append(html`
       <style>
         :host {

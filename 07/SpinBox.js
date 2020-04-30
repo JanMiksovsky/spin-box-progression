@@ -1,37 +1,47 @@
-import * as internal from "../lib/core/internal.js";
-import * as template from "../lib/core/template.js";
+import {
+  defaultState,
+  firstRender,
+  ids,
+  render,
+  setState,
+  state,
+  template,
+} from "../lib/core/internal.js";
 import ReactiveElement from "../lib/core/ReactiveElement.js";
+import { html } from "../lib/core/template.js";
 
 export default class SpinBox extends ReactiveElement {
-  get [internal.defaultState]() {
+  get [defaultState]() {
     return {
-      ...super[internal.defaultState],
-      value: 0
+      ...super[defaultState],
+      value: 0,
     };
   }
 
-  [internal.render](changed) {
-    super[internal.render](changed);
-    if (this[internal.firstRender]) {
+  [render](changed) {
+    super[render](changed);
+
+    if (this[firstRender]) {
       // Wire up event handlers.
-      this[internal.ids].input.addEventListener("input", () => {
-        this.value = this[internal.ids].input.value;
+      this[ids].input.addEventListener("input", () => {
+        this.value = this[ids].input.value;
       });
-      this[internal.ids].downButton.addEventListener("mousedown", () => {
+      this[ids].downButton.addEventListener("mousedown", () => {
         this.value--;
       });
-      this[internal.ids].upButton.addEventListener("mousedown", () => {
+      this[ids].upButton.addEventListener("mousedown", () => {
         this.value++;
       });
     }
+
     if (changed.value) {
       // Render value state to input.
-      this[internal.ids].input.value = this[internal.state].value;
+      this[ids].input.value = this[state].value;
     }
   }
 
-  get [internal.template]() {
-    return template.html`
+  get [template]() {
+    return html`
       <style>
         :host {
           display: inline-grid;
@@ -56,10 +66,10 @@ export default class SpinBox extends ReactiveElement {
   }
 
   get value() {
-    return this[internal.state].value;
+    return this[state].value;
   }
   set value(value) {
-    this[internal.setState]({ value });
+    this[setState]({ value });
   }
 }
 

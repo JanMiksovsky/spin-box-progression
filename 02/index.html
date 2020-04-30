@@ -29,6 +29,10 @@
     </template>
 
     <script type="module">
+      import {
+        render,
+        template,
+      } from "../lib/core/internal.js";
       import * as internal from '../lib/core/internal.js';
       import ShadowTemplateMixin from '../lib/core/ShadowTemplateMixin.js';
 
@@ -45,16 +49,16 @@
         }
 
         connectedCallback() {
-          this[internal.render]();
+          this[render]();
         }
 
         static get observedAttributes() {
           return ['value'];
         }
 
-        [internal.render]() {
+        [render]() {
           const firstRender = !this.shadowRoot;
-          super[internal.render](); // Populate shadow root from template.
+          super[render](); // Populate shadow root from template.
           if (firstRender) {
             // Wire up event handlers.
             const input = this.shadowRoot.getElementById('input');
@@ -69,7 +73,7 @@
           input.value = this._value;
         }
 
-        get [internal.template]() {
+        get [template]() {
           return spinBoxTemplate;
         }
 
@@ -78,7 +82,7 @@
         }
         set value(value) {
           this._value = value;
-          this[internal.render]();
+          this[render]();
         }
       }
 

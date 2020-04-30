@@ -1,10 +1,10 @@
-import * as internal from "../lib/core/internal.js";
-import html from "../lib/core/html.js";
 import Input from "../lib/base/Input.js";
+import html from "../lib/core/html.js";
+import { template } from "../lib/core/internal.js";
 
 export default class CustomInput extends Input {
-  get [internal.template]() {
-    const result = super[internal.template];
+  get [template]() {
+    const result = super[template];
     result.content.append(html`
       <style>
         :host {

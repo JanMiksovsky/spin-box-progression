@@ -29,7 +29,15 @@
     </template>
 
     <script type="module">
-      import * as internal from '../lib/core/internal.js';
+      import {
+        defaultState,
+        firstRender,
+        ids,
+        render,
+        setState,
+        state,
+        template
+      } from '../lib/core/internal.js';
       import AttributeMarshallingMixin from '../lib/core/AttributeMarshallingMixin.js';
       import ReactiveMixin from '../lib/core/ReactiveMixin.js';
       import ShadowTemplateMixin from '../lib/core/ShadowTemplateMixin.js';
@@ -37,42 +45,42 @@
       class SpinBox extends AttributeMarshallingMixin(ReactiveMixin(
         ShadowTemplateMixin(HTMLElement)
       )) {
-        get [internal.defaultState]() {
+        get [defaultState]() {
           return {
-            ...super[internal.defaultState],
+            ...super[defaultState],
             value: 0
           };
         }
 
-        [internal.render](changed) {
-          super[internal.render](changed); // Populates shadow root from template.
-          if (this[internal.firstRender]) {
+        [render](changed) {
+          super[render](changed); // Populates shadow root from template.
+          if (this[firstRender]) {
             // Wire up event handlers.
-            this[internal.ids].input.addEventListener("input", () => {
-              this.value = this[internal.ids].input.value;
+            this[ids].input.addEventListener("input", () => {
+              this.value = this[ids].input.value;
             });
-            this[internal.ids].downButton.addEventListener("mousedown", () => {
+            this[ids].downButton.addEventListener("mousedown", () => {
               this.value--;
             });
-            this[internal.ids].upButton.addEventListener("mousedown", () => {
+            this[ids].upButton.addEventListener("mousedown", () => {
               this.value++;
             });
           }
           if (changed.value) {
             // Render value state to input.
-            this[internal.ids].input.value = this[internal.state].value;
+            this[ids].input.value = this[state].value;
           }
         }
 
-        get [internal.template]() {
+        get [template]() {
           return spinBoxTemplate;
         }
 
         get value() {
-          return this[internal.state].value;
+          return this[state].value;
         }
         set value(value) {
-          this[internal.setState]({ value });
+          this[setState]({ value });
         }
       }
 

@@ -1,10 +1,10 @@
-import * as internal from "../lib/core/internal.js";
+import { template } from "../lib/core/internal.js";
 import SpinBox from "./SpinBox.js";
 
 export default class CustomSpinBox extends SpinBox {
-  get [internal.template]() {
-    const result = super[internal.template];
-    const style = document.createElement('style');
+  get [template]() {
+    const result = super[template];
+    const style = document.createElement("style");
     style.textContent = `
       :host {
         border: 2px solid #6e00ff;

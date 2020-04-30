@@ -1,28 +1,28 @@
-import * as internal from "../lib/core/internal.js";
 import html from "../lib/core/html.js";
+import { defaultState, render, state, template } from "../lib/core/internal.js";
 import CustomButton from "./CustomButton.js";
 import SpinBox from "./SpinBox.js";
 
 export default class CustomSpinBox extends SpinBox {
-  get [internal.defaultState]() {
+  get [defaultState]() {
     return {
-      ...super[internal.defaultState],
-      buttonPartType: CustomButton
+      ...super[defaultState],
+      buttonPartType: CustomButton,
     };
   }
 
-  [internal.render](changed) {
-    super[internal.render](changed);
+  [render](changed) {
+    super[render](changed);
     if (changed.value) {
-      const { value } = this[internal.state];
+      const { value } = this[state];
       const negative = parseInt(value) < 0;
       this.style.borderColor = negative ? "rgb(255, 0, 255)" : "";
       this.style.backgroundColor = negative ? "rgba(255, 0, 255, 0.1)" : "";
     }
   }
 
-  get [internal.template]() {
-    const result = super[internal.template];
+  get [template]() {
+    const result = super[template];
     result.content.append(html`
       <style>
         :host {

@@ -29,7 +29,11 @@
     </template>
 
     <script type="module">
-      import * as internal from '../lib/core/internal.js';
+      import {
+        ids,
+        render,
+        template
+      } from '../lib/core/internal.js';
       import ShadowTemplateMixin from '../lib/core/ShadowTemplateMixin.js';
 
       class SpinBox extends ShadowTemplateMixin(HTMLElement) {
@@ -45,33 +49,33 @@
         }
 
         connectedCallback() {
-          this[internal.render]();
+          this[render]();
         }
 
         static get observedAttributes() {
           return ['value'];
         }
 
-        [internal.render]() {
+        [render]() {
           const firstRender = !this.shadowRoot;
-          super[internal.render](); // Populates shadow root from template.
+          super[render](); // Populates shadow root from template.
           if (firstRender) {
             // Wire up event handlers.
-            this[internal.ids].input.addEventListener('input', () => {
-              this.value = this[internal.ids].input.value;
+            this[ids].input.addEventListener('input', () => {
+              this.value = this[ids].input.value;
             });
-            this[internal.ids].downButton.addEventListener("mousedown", () => {
+            this[ids].downButton.addEventListener("mousedown", () => {
               this.value--;
             });
-            this[internal.ids].upButton.addEventListener("mousedown", () => {
+            this[ids].upButton.addEventListener("mousedown", () => {
               this.value++;
             });
           }
           // Render value state to input.
-          this[internal.ids].input.value = this._value;
+          this[ids].input.value = this._value;
         }
 
-        get [internal.template]() {
+        get [template]() {
           return spinBoxTemplate;
         }
 
@@ -80,7 +84,7 @@
         }
         set value(value) {
           this._value = value;
-          this[internal.render]();
+          this[render]();
         }
       }
 

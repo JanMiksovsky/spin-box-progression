@@ -4,38 +4,45 @@
  * behavior.
  */
 
-import * as internal from "../lib/core/internal.js";
+import {
+  defaultState,
+  firstRender,
+  ids,
+  render,
+  setState,
+  state,
+} from "../lib/core/internal.js";
 import CustomButton from "./CustomButton.js";
 
 const initialTimeoutDuration = 500; // Wait a bit before starting repeats.
 const repeatIntervalDuration = 50; // Once repeats start, they go fast.
 
 export default class CustomRepeatButton extends CustomButton {
-  get [internal.defaultState]() {
+  get [defaultState]() {
     return {
-      ...super[internal.defaultState],
+      ...super[defaultState],
       interval: null,
-      timeout: null
+      timeout: null,
     };
   }
 
-  [internal.render](changed) {
-    super[internal.render](changed);
-    if (this[internal.firstRender]) {
+  [render](changed) {
+    super[render](changed);
+    if (this[firstRender]) {
       // Wire up event handlers.
       // Only listen to mouse events with the primary (usually left) button.
-      const inner = this[internal.ids].inner;
-      inner.addEventListener("mousedown", event => {
+      const inner = this[ids].inner;
+      inner.addEventListener("mousedown", (event) => {
         if (event.button === 0) {
           repeatStart(this);
         }
       });
-      inner.addEventListener("mouseup", event => {
+      inner.addEventListener("mouseup", (event) => {
         if (event.button === 0) {
           repeatStop(this);
         }
       });
-      inner.addEventListener("mouseleave", event => {
+      inner.addEventListener("mouseleave", (event) => {
         if (event.button === 0) {
           repeatStop(this);
         }
@@ -60,20 +67,20 @@ function repeatStart(element) {
       // Repeat interval passed; raise a mousedown event.
       raiseMousedown(element);
     }, repeatIntervalDuration);
-    element[internal.setState]({ interval });
+    element[setState]({ interval });
   }, initialTimeoutDuration - repeatIntervalDuration);
-  element[internal.setState]({ timeout });
+  element[setState]({ timeout });
 }
 
 function repeatStop(element) {
   // Stop timeout and/or interval in progress.
-  if (element[internal.state].timeout) {
-    clearTimeout(element[internal.state].timeout);
-    element[internal.setState]({ timeout: null });
+  if (element[state].timeout) {
+    clearTimeout(element[state].timeout);
+    element[setState]({ timeout: null });
   }
-  if (element[internal.state].interval) {
-    clearInterval(element[internal.state].interval);
-    element[internal.setState]({ interval: null });
+  if (element[state].interval) {
+    clearInterval(element[state].interval);
+    element[setState]({ interval: null });
   }
 }
 
@@ -84,7 +91,7 @@ function raiseMousedown(element) {
     cancelable: true,
     clientX: 0,
     clientY: 0,
-    button: 0
+    button: 0,
   });
   element.dispatchEvent(event);
 }
