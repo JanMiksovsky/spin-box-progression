@@ -1,1 +1,25 @@
 # spin-box-progression
+
+This repo walks through the conversion of a plain JavaScript spin box component into an extensible spin box base class and some customized variations.
+
+## Progression
+
+1. Initial plain JavaScript spin box in a single HTML file.
+2. Apply `ShadowTemplateMixin` to handle population of shadow root from a template property.
+3. Minor tweak to above to take advantage of `this[ids]` helper to reference shadow elements.
+4. Apply `ReactiveMixin` to handle representation of state and invoke a render function.
+5. Apply `AttributeMarshallingMixin` to handle conversion of attributes to properties.
+6. Consolidate use of those three mixins into use of a single `ReactiveElement` base class.
+7. Factor the JavaScript `SpinBox` component into its own file.
+8. Show the use of CSS `::part()` syntax to style a spin box from the outside.
+9. Introduce a `CustomSpinBox` subclass that applies that same styling via a template graft.
+10. The custom spin box overrides the `render` function to perform custom rendering when state changes.
+11. The base `SpinBox` turns the input and buttons into parts that can be replaced with custom parts.
+12. The up and down arrow glyphs are factored out of the base `SpinBox` and applied instead by the subclass.
+13. Show the complete set of pieces used to construct a custom spin box as part of a larger design system.
+
+The final `SpinBox` class handles basics like the buttons, keyboard support, and tracking the `value`. The final `CustomSpinBox` applies custom parts and rendering to support custom input and button parts, conditional styling for negative numbers, repeat-on-mousedown behavior for the buttons, and units like "px".
+
+## Running locally
+
+All of this is plain JavaScript, so you can just clone the repo and open the root folder with any web server, e.g., `npx http-server`.
