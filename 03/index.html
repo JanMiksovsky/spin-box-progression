@@ -59,6 +59,7 @@
         [render]() {
           const firstRender = !this.shadowRoot;
           super[render](); // Populates shadow root from template.
+
           if (firstRender) {
             // Wire up event handlers.
             this[ids].input.addEventListener('input', () => {
@@ -71,6 +72,7 @@
               this.value++;
             });
           }
+          
           // Render value state to input.
           this[ids].input.value = this._value;
         }

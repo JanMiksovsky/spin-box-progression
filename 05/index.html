@@ -54,6 +54,7 @@
 
         [render](changed) {
           super[render](changed); // Populates shadow root from template.
+
           if (this[firstRender]) {
             // Wire up event handlers.
             this[ids].input.addEventListener("input", () => {
@@ -66,6 +67,7 @@
               this.value++;
             });
           }
+          
           if (changed.value) {
             // Render value state to input.
             this[ids].input.value = this[state].value;
